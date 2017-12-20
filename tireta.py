@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, abort
 from flask_restful import Resource, Api
 
 app = Flask(__name__)
@@ -10,7 +10,10 @@ notes = {}
 class Note(Resource):
 
     def get(self, note_id):
-        return {note_id: notes[note_id]}
+        try:
+            return {note_id: notes[note_id]}
+        except KeyError:
+            abort(404, 'note not found : {}'.format(note_id))
 
     def put(self, note_id):
         app.logger.debug(request.data)
