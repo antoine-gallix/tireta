@@ -10,6 +10,7 @@ name = "pypi"
 flask = "*"
 flask-restful = "*"
 pytest-flask = "*"
+pytest = "*"
 
 
 [dev-packages]
