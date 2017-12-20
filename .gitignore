@@ -1,7 +1,8 @@
 todo
 *.sublime-project
 *.sublime-workspace
-
+dev*.py
+*.db
 
 
 # -------------------------------------------
