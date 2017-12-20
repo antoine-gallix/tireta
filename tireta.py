@@ -1,28 +1,24 @@
-from flask import Flask, request, abort
-from flask_restful import Resource, Api
+import flask
+import flask_sqlalchemy
+import flask_restless
+from pathlib import Path
+app = flask.Flask(__name__)
 
-app = Flask(__name__)
-api = Api(app)
-
-notes = {}
-
-
-class Note(Resource):
-
-    def get(self, note_id):
-        try:
-            return {note_id: notes[note_id]}
-        except KeyError:
-            abort(404, 'note not found : {}'.format(note_id))
-
-    def put(self, note_id):
-        app.logger.debug(request.data)
-        data = request.get_json()
-        notes[note_id] = data['note']
-        return {note_id: notes[note_id]}
+here = Path(__file__).resolve().parent
+app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{here}/tireta.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = flask_sqlalchemy.SQLAlchemy(app)
+api = flask_restless.APIManager(app, flask_sqlalchemy_db=db)
 
 
-api.add_resource(Note, '/<string:note_id>')
+class Note(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    body = db.Column(db.Text)
+
+api.create_api(Note, methods=['GET', 'POST', 'DELETE'])
+db.drop_all()
+db.create_all()
 
 if __name__ == '__main__':
     app.run(debug=True)

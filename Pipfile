@@ -8,9 +8,11 @@ name = "pypi"
 [packages]
 
 flask = "*"
-flask-restful = "*"
 pytest-flask = "*"
 pytest = "*"
+flask-restless = "*"
+sqlalchemy = "*"
+flask-sqlalchemy = "*"
 
 
 [dev-packages]
