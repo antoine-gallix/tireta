@@ -16,7 +16,6 @@ def make_note_payload():
 
 
 def test_client_exist(client):
-    bp()
     assert client is not None
 
 
