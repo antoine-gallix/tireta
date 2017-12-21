@@ -8,11 +8,6 @@ import random
 import string
 
 
-@fixture
-def app():
-    return tireta.app
-
-
 def make_note_payload():
     return {'name': ''.join(random.choices(string.ascii_lowercase, k=5)),
             'body': ''.join(random.choices(string.ascii_lowercase, k=50))}
@@ -21,6 +16,7 @@ def make_note_payload():
 
 
 def test_client_exist(client):
+    bp()
     assert client is not None
 
 
