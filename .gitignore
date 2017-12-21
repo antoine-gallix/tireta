@@ -3,7 +3,7 @@ todo
 *.sublime-workspace
 dev*.py
 *.db
-
+debug
 
 # -------------------------------------------
 
