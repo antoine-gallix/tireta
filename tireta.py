@@ -2,6 +2,7 @@ import flask
 import flask_restless
 from config import config
 import data
+
 api = flask_restless.APIManager()
 
 

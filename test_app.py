@@ -12,11 +12,13 @@ def make_note_payload():
     return {'name': ''.join(random.choices(string.ascii_lowercase, k=5)),
             'body': ''.join(random.choices(string.ascii_lowercase, k=50))}
 
-# -----------------------------------------------
+# ---------------------CLIENT--------------------------
 
 
 def test_client_exist(client):
     assert client is not None
+
+# ---------------------NOTES--------------------------
 
 
 def test_no_notes_at_startup(client):
@@ -40,3 +42,5 @@ def test_note_and_get(client):
     note_id = response.json['id']
     response = client.get(f'/api/note/{note_id}')
     assert response.status_code == 200
+
+# ---------------------USER--------------------------
