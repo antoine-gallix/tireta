@@ -4,7 +4,7 @@ todo
 dev*.py
 *.db
 debug
-
+*note*
 # -------------------------------------------
 
 # Byte-compiled / optimized / DLL files
