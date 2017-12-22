@@ -1,7 +1,7 @@
 from flask.testing import FlaskClient
 from pytest import fixture
 from tireta import create_app, db
-import data
+import models
 import json
 
 
