@@ -6,44 +6,10 @@ import tireta
 import json
 import random
 import string
+from conftest import build_user, build_note
 from faker import Faker
 fake = Faker()
 
-
-def build_note(**kwargs):
-    """Build payload for note creation
-
-    kwargs are added to the payload
-    """
-
-    payload = {'name': ' '.join(fake.words()),
-               'body': fake.text()}
-    payload.update(kwargs)
-    return payload
-
-
-def build_user():
-    """Build payload for user creation
-
-    kwargs are added to the payload
-    """
-    return {'name': fake.name()}
-
-
-@fixture
-def user_id(client):
-    """ID of a registered user"""
-    payload = build_user()
-    response = client.post('/api/user', data=payload)
-    return response.json['id']
-
-
-@fixture
-def note_id(client, user_id):
-    """ID of a registered note"""
-    payload = build_note(user_id=user_id)
-    response = client.post('/api/note', data=payload)
-    return response.json['id']
 
 # ---------------------CLIENT--------------------------
 
