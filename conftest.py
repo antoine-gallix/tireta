@@ -1,6 +1,6 @@
 from flask.testing import FlaskClient
 from pytest import fixture
-from tireta import create_app
+from tireta import create_app, db
 import data
 import json
 
@@ -36,6 +36,6 @@ def app():
     app.test_client_class = JSON_Client
     context = app.app_context()
     context.push()
-    data.db.drop_all()
-    data.db.create_all()
+    db.drop_all()
+    db.create_all()
     return app

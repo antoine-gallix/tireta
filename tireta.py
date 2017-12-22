@@ -1,18 +1,21 @@
+from pdb import set_trace as bp
 import flask
 import flask_restless
+import flask_sqlalchemy
 from config import config
-import data
 
 api = flask_restless.APIManager()
+db = flask_sqlalchemy.SQLAlchemy()
 
 
 def create_app(config_name='default'):
     app = flask.Flask(__name__)
     app.config.from_object(config[config_name])
-    data.db.init_app(app)
-    api.init_app(app=app, flask_sqlalchemy_db=data.db)
-
-    api.create_api(data.Note, methods=['GET', 'POST', 'DELETE'])
+    db.init_app(app)
+    api.init_app(app=app, flask_sqlalchemy_db=db)
+    from data import Note, User
+    api.create_api(Note, methods=['GET', 'POST', 'DELETE'])
+    api.create_api(User, methods=['GET', 'POST', 'DELETE'])
 
     return app
 
