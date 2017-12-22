@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "0a54faa079da24620b2886ece856430e94d72dd578bf7abdfd43564bb212dc1e"
+            "sha256": "03b0a4e980d3a6c7a258c189729f424534949a1c1018b55c00745fb459b89dbf"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -9,9 +9,9 @@
             "os_name": "posix",
             "platform_machine": "x86_64",
             "platform_python_implementation": "CPython",
-            "platform_release": "4.4.0-103-generic",
+            "platform_release": "4.4.0-104-generic",
             "platform_system": "Linux",
-            "platform_version": "#126-Ubuntu SMP Mon Dec 4 16:23:28 UTC 2017",
+            "platform_version": "#127-Ubuntu SMP Mon Dec 11 12:16:42 UTC 2017",
             "python_full_version": "3.6.3",
             "python_version": "3.6",
             "sys_platform": "linux"
@@ -40,6 +40,13 @@
                 "sha256:f15516df478d5a56180fbf80e68f206010e6d160fc39fa508b65e035fd75130b"
             ],
             "version": "==6.7"
+        },
+        "faker": {
+            "hashes": [
+                "sha256:2f6ccc9da046d4cd20401734cf6a1ac73a4e4d8256e7b283496ee6827ad2eb60",
+                "sha256:e928cf853ef69d7471421f2a3716a1239e43de0fa9855f4016ee0c9f1057328a"
+            ],
+            "version": "==0.8.8"
         },
         "flask": {
             "hashes": [
@@ -139,6 +146,13 @@
                 "sha256:8b79a5ed91cdcb5abe97b0045664c55c140aec09e5dd5c01303e23de5fe7a95a"
             ],
             "version": "==1.1.15"
+        },
+        "text-unidecode": {
+            "hashes": [
+                "sha256:02efd86b9c0f489f858d8cead62e94d3760dab444054b258734716f7602330a3",
+                "sha256:d0afd5e8a7ac69bfb1372e1bbfa3c63c22e3db8ae1284690e96b45c4430d08d0"
+            ],
+            "version": "==1.1"
         },
         "werkzeug": {
             "hashes": [

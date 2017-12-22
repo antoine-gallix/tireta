@@ -6,14 +6,8 @@ import tireta
 import json
 import random
 import string
-
-
-def random_word(nb_letters):
-    return ''.join(random.choices(string.ascii_lowercase, k=nb_letters))
-
-
-def random_text(nb_words, word_length=5):
-    return ' '.join([random_word(word_length) for _ in range(nb_words)])
+from faker import Faker
+fake = Faker()
 
 
 def build_note(**kwargs):
@@ -22,8 +16,8 @@ def build_note(**kwargs):
     kwargs are added to the payload
     """
 
-    payload = {'name': random_text(3),
-               'body': random_text(50)}
+    payload = {'name': ' '.join(fake.words()),
+               'body': fake.text()}
     payload.update(kwargs)
     return payload
 
@@ -33,7 +27,7 @@ def build_user():
 
     kwargs are added to the payload
     """
-    return {'name': ''.join(random.choices(string.ascii_lowercase, k=5))}
+    return {'name': fake.name()}
 
 
 @fixture
@@ -62,7 +56,6 @@ def test_get_non_existing_note(client):
     assert response.status_code == 404
 
 
-@mark.dev
 def test_note_post_note(client, user_id):
     payload = build_note(user_id=user_id)
     response = client.post('/api/note', data=payload)
