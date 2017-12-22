@@ -12,6 +12,5 @@ class Note(db.Model):
 
 class User(db.Model):
     id = Column(Integer, primary_key=True)
-    name = Column(String)
-    body = Column(Text)
-    user_id = orm.relationship(Note, backref='user')
+    name = Column(String, nullable=False)
+    notes = orm.relationship(Note, backref='user')
