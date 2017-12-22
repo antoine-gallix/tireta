@@ -8,13 +8,13 @@ name = "pypi"
 [packages]
 
 flask = "*"
-pytest-flask = "*"
-pytest = "*"
 flask-restless = "*"
 sqlalchemy = "*"
 flask-sqlalchemy = "*"
-faker = "*"
 
 
 [dev-packages]
 
+pytest-flask = "*"
+pytest = "*"
+faker = "*"
