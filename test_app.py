@@ -8,21 +8,38 @@ import random
 import string
 
 
-def make_note_payload(**kwargs):
-    payload = {'name': ''.join(random.choices(string.ascii_lowercase, k=5)),
-               'body': ''.join(random.choices(string.ascii_lowercase, k=50))}
+def random_word(nb_letters):
+    return ''.join(random.choices(string.ascii_lowercase, k=nb_letters))
+
+
+def random_text(nb_words, word_length=5):
+    return ' '.join([random_word(word_length) for _ in range(nb_words)])
+
+
+def build_note(**kwargs):
+    """Build payload for note creation
+
+    kwargs are added to the payload
+    """
+
+    payload = {'name': random_text(3),
+               'body': random_text(50)}
     payload.update(kwargs)
     return payload
 
 
-def make_user_payload():
+def build_user():
+    """Build payload for user creation
+
+    kwargs are added to the payload
+    """
     return {'name': ''.join(random.choices(string.ascii_lowercase, k=5))}
 
 
 @fixture
 def user_id(client):
     """ID of a registered user"""
-    payload = make_user_payload()
+    payload = build_user()
     response = client.post('/api/user', data=payload)
     return response.json['id']
 
@@ -47,13 +64,13 @@ def test_get_non_existing_note(client):
 
 @mark.dev
 def test_note_post_note(client, user_id):
-    payload = make_note_payload(user_id=user_id)
+    payload = build_note(user_id=user_id)
     response = client.post('/api/note', data=payload)
     assert response.status_code == 201
 
 
 def test_post_and_get_note(client, user_id):
-    payload = make_note_payload(user_id=user_id)
+    payload = build_note(user_id=user_id)
     response = client.post('/api/note', data=payload)
     assert response.status_code == 201
     note_id = response.json['id']
@@ -79,12 +96,12 @@ def test_get_non_existing_user(client):
 
 
 def test_user_post_user(client):
-    response = client.post('/api/user', data=make_user_payload())
+    response = client.post('/api/user', data=build_user())
     assert response.status_code == 201
 
 
 def test_post_and_get_user(client):
-    response = client.post('/api/user', data=make_user_payload())
+    response = client.post('/api/user', data=build_user())
     assert response.status_code == 201
     user_id = response.json['id']
     response = client.get(f'/api/user/{user_id}')
