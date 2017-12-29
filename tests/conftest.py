@@ -7,7 +7,7 @@ import json
 fake = Faker()
 
 
-def build_note(**kwargs):
+def build_note_payload(**kwargs):
     """Build payload for note creation
 
     kwargs are added to the payload

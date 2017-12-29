@@ -1,18 +1,16 @@
 from pdb import set_trace as bp
 from pytest import fixture, mark
 from flask import current_app
+from db_utils import add_note, add_user
 import json
 import tireta
 import json
 import random
 import string
-from conftest import build_user, build_note
-from faker import Faker
-fake = Faker()
+from conftest import build_user_payload, build_note_payload
 
 
 # ---------------------CLIENT--------------------------
-
 
 def test_client_exist(client):
     assert client is not None
@@ -36,20 +34,23 @@ def test_get_non_existing_user(client):
 
 
 def test_user_post_user(client):
-    payload = build_user()
+    payload = build_user_payload()
     response = client.post('/api/user', data=payload)
     assert response.status_code == 201
 
 
-def test_get_user(client, user_id):
-    response = client.get(f'/api/user/{user_id}')
+def test_get_user(client):
+    user = add_user()
+    response = client.get('/api/user/{}'.format(user.id))
     assert response.status_code == 200
 
 
-def test_delete_user(client, user_id):
-    response = client.delete(f'/api/user/{user_id}')
+def test_delete_user(client):
+    user = add_user()
+    user_endpoint = '/api/user/{}'.format(user.id)
+    response = client.delete(user_endpoint)
     assert response.status_code == 204
-    response = client.get(f'/api/user/{user_id}')
+    response = client.get(user_endpoint)
     assert response.status_code == 404
 
 
@@ -71,24 +72,30 @@ def test_get_non_existing_note(client):
     assert response.status_code == 404
 
 
-def test_note_post_note(client, user_id):
-    payload = build_note(user_id=user_id)
+def test_note_post_note(client):
+    user = add_user()
+    payload = build_note_payload(user_id=user.id)
     response = client.post('/api/note', data=payload)
     assert response.status_code == 201
 
 
-def test_get_note(client, note_id):
-    response = client.get(f'/api/note/{note_id}')
+def test_get_note(client):
+    user = add_user()
+    note = add_note(user)
+    response = client.get('/api/note/{}'.format(note.id))
     assert response.status_code == 200
 
 
-def test_delete_note(client, note_id):
-    response = client.delete(f'/api/note/{note_id}')
+def test_delete_note(client):
+    user = add_user()
+    note = add_note(user)
+    note_url = '/api/note/{}'.format(note.id)
+    response = client.delete(note_url)
     assert response.status_code == 204
-    response = client.get(f'/api/note/{note_id}')
+    response = client.get(note_url)
     assert response.status_code == 404
 
-# ---------------------NOTES WITH TAGS--------------------------
+# # ---------------------NOTES WITH TAGS--------------------------
 
 
 def test_tag_resource_exist(client):
@@ -106,14 +113,8 @@ def test_get_non_existing_tag(client):
     assert response.status_code == 404
 
 
-def test_get_tag(client, note_id):
-    response = client.get(f'/api/note/{note_id}')
-    bp()
+def test_get_tag(client):
+    user = add_user()
+    note = add_note(user)
+    response = client.get('/api/note/{}'.format(note.tags[0].id))
     assert response.status_code == 200
-
-
-# def test_delete_tag(client, tag_id):
-#     response = client.delete(f'/api/tag/{tag_id}')
-#     assert response.status_code == 204
-#     response = client.get(f'/api/tag/{tag_id}')
-#     assert response.status_code == 404
