@@ -1,7 +1,7 @@
 todo
 *.sublime-project
 *.sublime-workspace
-dev*.py
+dev_*.py
 *.db
 debug
 ideas
