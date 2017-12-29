@@ -5,15 +5,19 @@ A magic drawer for your notes. Put it in there, find them from everywhere. Kind 
 It's a note repository. [Tireta](http://www.panoccitan.org/diccionari.aspx?diccion=s%u00f2fia&lenga=oc) is an occitan word for 'little drawer'
 
 ## Deployment
-pip install pipenv
-pip install .
-pipenv install
+
+    pip install pipenv
+    pip install .
+    pipenv install
 
 ### Install for development
-pip -e install .
+
+    pipenv
+    pip -e install .
 
 ### Tests
-py.test
+
+    py.test
 
 ## Feature Roadmap
 
