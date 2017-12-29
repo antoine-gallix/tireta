@@ -43,6 +43,4 @@ def test_extract_tags():
 # --------------------integration----------------------
 
 
-# test both together
-
-# fixtures : tmp file
+# TODO : client integration. read+extract+send note to API

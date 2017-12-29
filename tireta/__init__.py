@@ -13,9 +13,10 @@ def create_app(config_name='default'):
     app.config.from_object(config[config_name])
     db.init_app(app)
     api.init_app(app=app, flask_sqlalchemy_db=db)
-    from .models import Note, User
+    from .models import Note, User, Tag
     api.create_api(Note, methods=['GET', 'POST', 'DELETE'])
     api.create_api(User, methods=['GET', 'POST', 'DELETE'])
+    api.create_api(Tag, methods=['GET'])
 
     return app
 

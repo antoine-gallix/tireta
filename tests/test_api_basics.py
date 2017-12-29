@@ -87,3 +87,33 @@ def test_delete_note(client, note_id):
     assert response.status_code == 204
     response = client.get(f'/api/note/{note_id}')
     assert response.status_code == 404
+
+# ---------------------NOTES WITH TAGS--------------------------
+
+
+def test_tag_resource_exist(client):
+    response = client.get('/api/tag')
+    assert response.status_code == 200
+
+
+def test_test_start_with_no_tag(client):
+    response = client.get('/api/tag')
+    assert response.json["num_results"] == 0
+
+
+def test_get_non_existing_tag(client):
+    response = client.get('/api/tag/1000')
+    assert response.status_code == 404
+
+
+def test_get_tag(client, note_id):
+    response = client.get(f'/api/note/{note_id}')
+    bp()
+    assert response.status_code == 200
+
+
+# def test_delete_tag(client, tag_id):
+#     response = client.delete(f'/api/tag/{tag_id}')
+#     assert response.status_code == 204
+#     response = client.get(f'/api/tag/{tag_id}')
+#     assert response.status_code == 404

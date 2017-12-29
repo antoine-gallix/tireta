@@ -8,10 +8,14 @@ class BaseConfig:
 
 
 class TestConfig(BaseConfig):
+
+    # for tests, database is in-memory
     SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
 
 
 class DevConfig(BaseConfig):
+
+    # for dev, use a file
     SQLALCHEMY_DATABASE_URI = f'sqlite:///{here}/tireta.db'
 
 

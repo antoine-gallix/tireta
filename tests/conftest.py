@@ -19,7 +19,7 @@ def build_note(**kwargs):
     return payload
 
 
-def build_user():
+def build_user_payload():
     """Build payload for user creation
 
     kwargs are added to the payload
@@ -73,7 +73,7 @@ def user_id(client):
 
 @fixture
 def note_id(client, user_id):
-    """ID of a registered note"""
+    """ID of a note in the database"""
     payload = build_note(user_id=user_id)
     response = client.post('/api/note', data=payload)
     return response.json['id']
