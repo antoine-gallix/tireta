@@ -14,10 +14,11 @@ db = flask_sqlalchemy.SQLAlchemy()
 
 
 def create_app(config_name='default'):
-    logging.info('creating app')
-    # setup app and extensions
+    # setup app
     app = flask.Flask(__name__)
     app.config.from_object(config[config_name])
+
+    # setup extensions
     db.init_app(app)
     api.init_app(app=app, flask_sqlalchemy_db=db)
     from .models import Note, User, Tag
