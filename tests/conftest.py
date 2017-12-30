@@ -47,6 +47,7 @@ class JSON_Client(FlaskClient):
     """
 
     def open(self, *args, **kwargs):
+        # encode data into json and set content type
         if 'data' in kwargs:
             kwargs['data'] = json.dumps(kwargs['data'])
             return super().open(*args, **kwargs,
@@ -59,8 +60,7 @@ class JSON_Client(FlaskClient):
 def app():
     app = create_app()
     app.test_client_class = JSON_Client
-    context = app.app_context()
-    context.push()
+    app.app_context().push()
     db.drop_all()
     db.create_all()
     return app

@@ -41,6 +41,8 @@ def list_db():
 
 
 def add_user():
+    """Add user to the database"""
+
     user = User(name=fake.name())
     session.add(user)
     session.commit()
@@ -48,6 +50,11 @@ def add_user():
 
 
 def add_note(author):
+    """Add note to the database
+
+    The note belongs the the given user. Tags are also
+     stored in the database and linked to the note.
+    """
     tag_names = fake.words()
     tags = [add_tag(name) for name in tag_names]
     note = Note(

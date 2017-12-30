@@ -1,13 +1,13 @@
 from pdb import set_trace as bp
 from pytest import fixture, mark
 from flask import current_app
-from db_utils import add_note, add_user
+from .db_utils import add_note, add_user
 import json
 import tireta
 import json
 import random
 import string
-from conftest import build_user_payload, build_note_payload
+from .conftest import build_user_payload, build_note_payload
 
 
 # ---------------------CLIENT--------------------------
@@ -15,8 +15,8 @@ from conftest import build_user_payload, build_note_payload
 def test_client_exist(client):
     assert client is not None
 
-# ---------------------USER--------------------------
 
+# ---------------------USER--------------------------
 
 def test_user_resource_exist(client):
     response = client.get('/api/user')
