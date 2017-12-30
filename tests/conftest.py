@@ -7,15 +7,18 @@ import json
 fake = Faker()
 
 
-def build_note_payload(**kwargs):
+def build_note_payload(with_tags=False, **kwargs):
     """Build payload for note creation
 
     kwargs are added to the payload
+    with_tags : add random tags to the payload
     """
 
     payload = {'name': ' '.join(fake.words()),
                'body': fake.text()}
     payload.update(kwargs)
+    if with_tags:
+        payload.update({'tags': fake.words()})
     return payload
 
 
