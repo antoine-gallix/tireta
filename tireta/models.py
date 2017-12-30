@@ -10,6 +10,16 @@ class Note(db.Model):
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
 
 
+def note_post_preprocessor(data=None, **kw):
+    logging.debug(data)
+    pass
+
+
+def note_post_postprocessor(result=None, **kw):
+    logging.debug(result)
+    pass
+
+
 class User(db.Model):
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)

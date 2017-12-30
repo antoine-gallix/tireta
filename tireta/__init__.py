@@ -21,12 +21,14 @@ def create_app(config_name='default'):
     # setup extensions
     db.init_app(app)
     api.init_app(app=app, flask_sqlalchemy_db=db)
-    from .models import Note, User, Tag
-    api.create_api(Note, methods=['GET', 'POST', 'DELETE'])
-    api.create_api(User, methods=['GET', 'POST', 'DELETE'])
-    api.create_api(Tag, methods=['GET'])
 
-    return app
-
+    # setup API
+    from . import models
+    api.create_api(models.Note, methods=['GET', 'POST', 'DELETE'],
+                   preprocessors={'POST': [models.note_post_preprocessor]},
+                   postprocessors={'POST': [models.note_post_postprocessor]},
+                   )
+    api.create_api(models.User, methods=['GET', 'POST', 'DELETE'])
+    api.create_api(models.Tag, methods=['GET'])
 
     return app
