@@ -1,13 +1,22 @@
-todo
-*.sublime-project
-*.sublime-workspace
+# dev scratch files
 dev_*.py
-*.db
+
+# note files
+todo
 debug
 ideas
 questions
 *note*
-# -------------------------------------------
+
+# app files
+*.db
+log
+
+# sublime text
+*.sublime-project
+*.sublime-workspace
+
+# -------------------github python's ignores------------------------
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

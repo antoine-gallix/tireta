@@ -1,7 +1,10 @@
+import logging
 from pathlib import Path
 
 here = Path(__file__).resolve().parent
 
+
+# ---------------------application---------------------
 
 class BaseConfig:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
@@ -24,4 +27,20 @@ config = {
     'dev': DevConfig,
 
     'default': DevConfig,
+}
+
+
+# ---------------------logging---------------------
+
+logging_config = {
+    'version': 1,
+    'handlers':
+        {'file_handler':
+                 {'class': 'logging.FileHandler',
+                  'filename': 'log'}
+         },
+    'root': {
+        'level': 'DEBUG',
+        'handlers': ['file_handler']
+    }
 }
