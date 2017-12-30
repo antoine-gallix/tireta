@@ -29,18 +29,24 @@ config = {
     'default': DevConfig,
 }
 
-
 # ---------------------logging---------------------
 
+# logging config for manual development
 logging_config = {
     'version': 1,
+    'formatters':
+        {'module':
+            {'format': '%(module)s : %(funcName)s : %(message)s'}
+         },
     'handlers':
         {'file_handler':
-                 {'class': 'logging.FileHandler',
-                  'filename': 'log'}
+         {'class': 'logging.FileHandler',
+          'filename': 'log',
+          'formatter': 'module'
+          }
          },
     'root': {
         'level': 'DEBUG',
         'handlers': ['file_handler']
-    }
+            }
 }
