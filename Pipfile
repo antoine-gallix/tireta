@@ -11,6 +11,7 @@ flask = "*"
 flask-restless = "*"
 sqlalchemy = "*"
 flask-sqlalchemy = "*"
+faker = "*"
 
 
 [dev-packages]
@@ -20,3 +21,4 @@ pytest = "*"
 faker = "*"
 ipython = "*"
 rlipython = "*"
+pdbpp = "*"
