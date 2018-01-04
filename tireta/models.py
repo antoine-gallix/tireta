@@ -1,38 +1,35 @@
-from sqlalchemy import Column, Integer, String, Text, ForeignKey, Table
-from flask_sqlalchemy import orm
-from tireta import db
+from flask_sqlalchemy import SQLAlchemy, orm
+
+db = SQLAlchemy()
+
+
+# ---------------------data models---------------------
 
 
 class Note(db.Model):
-    id = Column(Integer, primary_key=True)
-    name = Column(String, nullable=False)
-    body = Column(Text, nullable=False)
-    user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
-
-
-def note_post_preprocessor(data=None, **kw):
-    logging.debug(data)
-    pass
-
-
-def note_post_postprocessor(result=None, **kw):
-    logging.debug(result)
-    pass
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    body = db.Column(db.Text, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
 
 class User(db.Model):
-    id = Column(Integer, primary_key=True)
-    name = Column(String, nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
     notes = orm.relationship(Note, backref='user')
 
 
 class Tag(db.Model):
-    id = Column(Integer, primary_key=True)
-    name = Column(String, nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
     notes = orm.relationship(Note, secondary='notes_tags', backref='tags')
 
-notes_tags = Table('notes_tags',
-                   db.Model.metadata,
-                   Column('note_id', Integer, ForeignKey('note.id')),
-                   Column('tag_id', Integer, ForeignKey('tag.id'))
-                   )
+
+# table for many-to-many relation between notes and tags
+notes_tags = db.Table('notes_tags',
+                      db.Model.metadata,
+                      db.Column('note_id', db.Integer,
+                                db.ForeignKey('note.id')),
+                      db.Column('tag_id', db.Integer,
+                                db.ForeignKey('tag.id'))
+                      )

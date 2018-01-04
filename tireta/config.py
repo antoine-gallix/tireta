@@ -1,4 +1,5 @@
 import logging
+import os
 from pathlib import Path
 
 here = Path(__file__).resolve().parent
@@ -22,16 +23,9 @@ class DevConfig(BaseConfig):
     SQLALCHEMY_DATABASE_URI = f'sqlite:///{here}/tireta.db'
 
 
-config = {
-    'test': TestConfig,
-    'dev': DevConfig,
-
-    'default': DevConfig,
-}
-
 # ---------------------logging---------------------
 
-# logging config for manual development
+# logging config
 logging_config = {
     'version': 1,
     'formatters':
@@ -48,5 +42,5 @@ logging_config = {
     'root': {
         'level': 'DEBUG',
         'handlers': ['file_handler']
-            }
+        }
 }
