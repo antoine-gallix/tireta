@@ -1,7 +1,8 @@
 from flask.testing import FlaskClient
 from pytest import fixture
-from tireta import create_app, db
+from tireta import app, db
 from faker import Faker
+import logging
 import json
 
 fake = Faker()
@@ -56,27 +57,15 @@ class JSON_Client(FlaskClient):
             return super().open(*args, **kwargs)
 
 
-@fixture
+@fixture(scope='session')
 def app():
-    app = create_app()
-    app.test_client_class = JSON_Client
-    app.app_context().push()
-    db.drop_all()
-    db.create_all()
+    # app = create_app()
+    # app.test_client_class = JSON_Client
     return app
 
 
 @fixture
-def user_id(client):
-    """ID of a registered user"""
-    payload = build_user()
-    response = client.post('/api/user', data=payload)
-    return response.json['id']
-
-
-@fixture
-def note_id(client, user_id):
-    """ID of a note in the database"""
-    payload = build_note(user_id=user_id)
-    response = client.post('/api/note', data=payload)
-    return response.json['id']
+def clear_db(app):
+    logging.debug('reset db tables')
+    db.drop_all()
+    db.create_all()

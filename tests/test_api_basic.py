@@ -10,6 +10,9 @@ import string
 from .conftest import build_user_payload, build_note_payload
 
 
+# pytestmark = mark.usefixtures("clear_db")
+
+
 # ---------------------CLIENT--------------------------
 
 def test_client_exist(client):
@@ -19,6 +22,7 @@ def test_client_exist(client):
 # ---------------------USER--------------------------
 
 def test_user_resource_exist(client):
+    bp()
     response = client.get('/api/user')
     assert response.status_code == 200
 
