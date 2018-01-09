@@ -5,8 +5,16 @@ from .serializing import user_schema, user_collection_schema
 from pdb import set_trace as bp
 from sqlalchemy.orm.exc import NoResultFound
 
-api = Api()
 session = db.session
+
+errors = {
+    'NoResultFound': {
+        'message': "The requested resource does not exist",
+        'status': 404,
+    },
+}
+
+api = Api(errors=errors)
 
 
 class UserResource(Resource):

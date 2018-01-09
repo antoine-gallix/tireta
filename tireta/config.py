@@ -23,7 +23,10 @@ class DevConfig(BaseConfig):
     SQLALCHEMY_DATABASE_URI = f'sqlite:///{here}/tireta.db'
     DEBUG = True
 
-
+config_map = {
+    'test': TestConfig,
+    'dev': DevConfig,
+}
 # ---------------------logging---------------------
 
 # logging config
@@ -43,5 +46,5 @@ logging_config = {
     'root': {
         'level': 'DEBUG',
         'handlers': ['file_handler']
-        }
+            }
 }
