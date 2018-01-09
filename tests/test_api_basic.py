@@ -28,7 +28,7 @@ def test_user_resource_exist(client):
 
 def test_test_start_with_no_user(client):
     response = client.get('/api/users')
-    assert response.json["num_results"] == 0
+    assert response.load() == []
 
 
 def test_get_non_existing_user(client):

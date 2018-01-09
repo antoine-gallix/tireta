@@ -1,3 +1,4 @@
+from flask import Response
 from flask.testing import FlaskClient
 from pytest import fixture
 from tireta import create_app
@@ -58,10 +59,17 @@ class JSON_Client(FlaskClient):
             return super().open(*args, **kwargs)
 
 
+class Load_JSON_Response(Response):
+
+    def load(self):
+        return json.loads(self.json)
+
+
 @fixture(scope='session')
 def app():
     application = create_app('test')
     application.test_client_class = JSON_Client
+    application.response_class = Load_JSON_Response
     return application
 
 
