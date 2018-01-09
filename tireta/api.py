@@ -3,6 +3,7 @@ import logging
 from flask_restful import Resource, Api
 from .serializing import user_schema, user_collection_schema
 from pdb import set_trace as bp
+from sqlalchemy.orm.exc import NoResultFound
 
 api = Api()
 session = db.session
