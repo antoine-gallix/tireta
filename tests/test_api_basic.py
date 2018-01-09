@@ -1,6 +1,7 @@
 from pdb import set_trace as bp
 from pytest import fixture, mark
 from flask import current_app
+from .utils import is_in
 from .db_utils import add_note, add_user
 import json
 import tireta
@@ -40,6 +41,9 @@ def test_user_post_user(client):
     payload = build_user_payload()
     response = client.post('/api/users', data=payload)
     assert response.status_code == 201
+    response_user = response.load()
+    assert is_in(payload, response_user)
+    assert response_user['notes'] == []
 
 
 def test_get_user(client):
