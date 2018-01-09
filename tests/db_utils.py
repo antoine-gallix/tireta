@@ -1,8 +1,7 @@
 """Tools to manipulate and query database from model level"""
 from pdb import set_trace as bp
 from faker import Faker
-from tireta.models import User, Note, Tag
-from tireta import db
+from tireta.models import User, Note, Tag, db
 from sqlalchemy.orm.exc import NoResultFound
 fake = Faker()
 session = db.session
@@ -40,13 +39,18 @@ def list_db():
     list_tags()
 
 
-def add_user():
-    """Add user to the database"""
-
-    user = User(name=fake.name())
-    session.add(user)
+def add_user(n=1):
+    """Add one or more users to the database"""
+    users = []
+    for _ in range(n):
+        user = User(name=fake.name())
+        session.add(user)
+        users.append(user)
     session.commit()
-    return user
+    if len(users) == 1:
+        return users[0]
+    else:
+        return users
 
 
 def add_note(author):

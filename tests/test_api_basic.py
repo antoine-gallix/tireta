@@ -10,48 +10,47 @@ import string
 from .conftest import build_user_payload, build_note_payload
 
 
-# pytestmark = mark.usefixtures("clear_db")
-
+pytestmark = mark.usefixtures("clear_db")
 
 # ---------------------CLIENT--------------------------
+
 
 def test_client_exist(client):
     assert client is not None
 
-
 # ---------------------USER--------------------------
 
+
 def test_user_resource_exist(client):
-    bp()
-    response = client.get('/api/user')
+    response = client.get('/api/users')
     assert response.status_code == 200
 
 
 def test_test_start_with_no_user(client):
-    response = client.get('/api/user')
+    response = client.get('/api/users')
     assert response.json["num_results"] == 0
 
 
 def test_get_non_existing_user(client):
-    response = client.get('/api/user/1000')
+    response = client.get('/api/users/1000')
     assert response.status_code == 404
 
 
 def test_user_post_user(client):
     payload = build_user_payload()
-    response = client.post('/api/user', data=payload)
+    response = client.post('/api/users', data=payload)
     assert response.status_code == 201
 
 
 def test_get_user(client):
     user = add_user()
-    response = client.get('/api/user/{}'.format(user.id))
+    response = client.get('/api/users/{}'.format(user.id))
     assert response.status_code == 200
 
 
 def test_delete_user(client):
     user = add_user()
-    user_endpoint = '/api/user/{}'.format(user.id)
+    user_endpoint = '/api/users/{}'.format(user.id)
     response = client.delete(user_endpoint)
     assert response.status_code == 204
     response = client.get(user_endpoint)

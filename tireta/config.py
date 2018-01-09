@@ -21,6 +21,7 @@ class DevConfig(BaseConfig):
 
     # for dev, use a file
     SQLALCHEMY_DATABASE_URI = f'sqlite:///{here}/tireta.db'
+    DEBUG = True
 
 
 # ---------------------logging---------------------
@@ -30,7 +31,7 @@ logging_config = {
     'version': 1,
     'formatters':
         {'module':
-            {'format': '%(module)s : %(funcName)s : %(message)s'}
+            {'format': '%(module)s : %(funcName)s() : %(message)s'}
          },
     'handlers':
         {'file_handler':

@@ -1,35 +1,28 @@
-from flask_restless import APIManager
-from .models import Note, User, Tag
+from .models import Note, User, Tag, db
 import logging
+from flask_restful import Resource, Api
+from .serializing import user_schema, user_collection_schema
+from pdb import set_trace as bp
 
-api = APIManager()
-
-
-def note_post_preprocessor(data=None, **kw):
-    logging.debug(data)
-    pass
-
-
-def note_post_postprocessor(result=None, **kw):
-    logging.debug(result)
-    pass
+api = Api()
+session = db.session
 
 
-def create_apis(app, api):
-    api.create_api(
-        Note,
-        app=app,
-        methods=['GET', 'POST', 'DELETE'],
-        preprocessors={
-            'POST': [note_post_preprocessor]},
-        postprocessors={
-            'POST': [note_post_postprocessor]},
-    )
-    api.create_api(
-        User,
-        app=app,
-        methods=['GET', 'POST', 'DELETE'])
-    api.create_api(
-        Tag,
-        app=app,
-        methods=['GET'])
+class UserCollection(Resource):
+
+    def get(self):
+        users = session.query(User).all()
+        users_json = user_collection_schema.dumps(users).data
+        return users_json
+
+api.add_resource(UserCollection, '/api/users')
+
+
+class UserSingle(Resource):
+
+    def get(self, user_id):
+        user = session.query(User).filter_by(id=user_id).one()
+        user_json = user_schema.dumps(user).data
+        return user_json
+
+api.add_resource(UserSingle, '/api/users/<int:user_id>')

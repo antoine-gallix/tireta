@@ -1,6 +1,7 @@
 from flask.testing import FlaskClient
 from pytest import fixture
-from tireta import app as application, db
+from tireta import create_app
+from tireta.models import db
 from faker import Faker
 import logging
 import json
@@ -59,8 +60,8 @@ class JSON_Client(FlaskClient):
 
 @fixture(scope='session')
 def app():
-    # app = create_app()
-    # app.test_client_class = JSON_Client
+    application = create_app()
+    application.test_client_class = JSON_Client
     return application
 
 
