@@ -8,21 +8,22 @@ api = Api()
 session = db.session
 
 
-class UserCollection(Resource):
+class UserResource(Resource):
 
-    def get(self):
-        users = session.query(User).all()
-        users_json = user_collection_schema.dumps(users).data
-        return users_json
+    def get(self, user_id=None):
+        if user_id:
+            return self.get_one(user_id)
+        else:
+            return self.get_many()
 
-api.add_resource(UserCollection, '/api/users')
-
-
-class UserSingle(Resource):
-
-    def get(self, user_id):
+    def get_one(self, user_id):
         user = session.query(User).filter_by(id=user_id).one()
         user_json = user_schema.dumps(user).data
         return user_json
 
-api.add_resource(UserSingle, '/api/users/<int:user_id>')
+    def get_many(self):
+        users = session.query(User).all()
+        users_json = user_collection_schema.dumps(users).data
+        return users_json
+
+api.add_resource(UserResource, '/api/users', '/api/users/<int:user_id>')
