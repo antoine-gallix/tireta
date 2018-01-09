@@ -60,7 +60,7 @@ class JSON_Client(FlaskClient):
 
 @fixture(scope='session')
 def app():
-    application = create_app()
+    application = create_app('test')
     application.test_client_class = JSON_Client
     return application
 
