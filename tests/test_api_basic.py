@@ -61,6 +61,12 @@ def test_delete_user(client):
     assert response.status_code == 404
 
 
+def test_delete_nonexisting_user(client):
+    user_endpoint = '/api/users/1'
+    response = client.delete(user_endpoint)
+    assert response.status_code == 404
+
+
 # ---------------------NOTES--------------------------
 
 

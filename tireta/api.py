@@ -29,6 +29,17 @@ class UserResource(Resource):
         feedback = user_schema.dumps(user).data
         return feedback, 201
 
+    def delete(self, user_id=None):
+        if user_id is None:
+            return 'deletion works only on single user', 403
+        try:
+            user = session.query(User).filter_by(id=user_id).one()
+            db.session.delete(user)
+            db.session.commit()
+            return 'user deleted', 204
+        except NoResultFound:
+            return 'user does not exist', 404
+
     def get(self, user_id=None):
         if user_id:
             return self.get_one(user_id)
