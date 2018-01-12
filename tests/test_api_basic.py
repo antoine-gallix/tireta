@@ -71,38 +71,38 @@ def test_delete_nonexisting_user(client):
 
 
 def test_note_resource_exist(client):
-    response = client.get('/api/note')
+    response = client.get('/api/notes')
     assert response.status_code == 200
 
 
 def test_test_start_with_no_note(client):
-    response = client.get('/api/note')
-    assert response.json["num_results"] == 0
+    response = client.get('/api/notes')
+    assert response.load() == []
 
 
 def test_get_non_existing_note(client):
-    response = client.get('/api/note/1000')
+    response = client.get('/api/notes/1000')
     assert response.status_code == 404
 
 
 def test_note_post_note(client):
     user = add_user()
     payload = build_note_payload(user_id=user.id)
-    response = client.post('/api/note', data=payload)
+    response = client.post('/api/notes', data=payload)
     assert response.status_code == 201
 
 
 def test_get_note(client):
     user = add_user()
     note = add_note(user)
-    response = client.get('/api/note/{}'.format(note.id))
+    response = client.get('/api/notes/{}'.format(note.id))
     assert response.status_code == 200
 
 
 def test_delete_note(client):
     user = add_user()
     note = add_note(user)
-    note_url = '/api/note/{}'.format(note.id)
+    note_url = '/api/notes/{}'.format(note.id)
     response = client.delete(note_url)
     assert response.status_code == 204
     response = client.get(note_url)
@@ -112,22 +112,22 @@ def test_delete_note(client):
 
 
 def test_tag_resource_exist(client):
-    response = client.get('/api/tag')
+    response = client.get('/api/tags')
     assert response.status_code == 200
 
 
 def test_test_start_with_no_tag(client):
-    response = client.get('/api/tag')
-    assert response.json["num_results"] == 0
+    response = client.get('/api/tags')
+    assert response.load() == []
 
 
 def test_get_non_existing_tag(client):
-    response = client.get('/api/tag/1000')
+    response = client.get('/api/tags/1000')
     assert response.status_code == 404
 
 
 def test_get_tag(client):
     user = add_user()
     note = add_note(user)
-    response = client.get('/api/note/{}'.format(note.tags[0].id))
+    response = client.get('/api/tags/{}'.format(note.tags[0].id))
     assert response.status_code == 200

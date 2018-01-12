@@ -12,11 +12,17 @@ class Note(db.Model):
     body = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
+    def __repr__(self):
+        return 'Note(id={},name=\'{}\',user_id={})'.format(self.id, self.name, self.user_id)
+
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     notes = orm.relationship(Note, backref='user')
+
+    def __repr__(self):
+        return 'User(id={},name=\'{}\',notes:{})'.format(self.id, self.name, [n.id for n in self.notes])
 
 
 class Tag(db.Model):
