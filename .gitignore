@@ -1,5 +1,5 @@
 # dev scratch files
-dev_*.py
+dev*.py
 
 # note files
 todo
