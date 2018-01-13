@@ -39,18 +39,27 @@ def list_db():
     list_tags()
 
 
-def add_user(n=1):
-    """Add one or more users to the database"""
+def add_users(n, names=None):
+    """Add multiple users to the database"""
     users = []
-    for _ in range(n):
-        user = User(name=fake.name())
+    if names is None:
+        names = [fake.name() for _ in range(n)]
+    for n in names:
+        user = User(name=n)
         session.add(user)
         users.append(user)
     session.commit()
-    if len(users) == 1:
-        return users[0]
-    else:
-        return users
+    return users
+
+
+def add_user(name=None):
+    """Add one user to the database"""
+    if name is None:
+        name = fake.name()
+    user = User(name=name)
+    session.add(user)
+    session.commit()
+    return user
 
 
 def add_note(author):
