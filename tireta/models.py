@@ -33,6 +33,8 @@ class Tag(db.Model):
     notes = orm.relationship(
         'Note', secondary='notes_tags', back_populates='tags')
 
+    def __repr__(self):
+        return 'Tag(id={},name=\'{}\')'.format(self.id, self.name, [n.id for n in self.notes])
 
 # table for many-to-many relation between notes and tags
 notes_tags = db.Table('notes_tags',
