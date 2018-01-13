@@ -11,6 +11,8 @@ class Note(db.Model):
     name = db.Column(db.String, nullable=False)
     body = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    tags = orm.relationship('Tag', secondary='notes_tags',
+                            back_populates='notes')
 
     def __repr__(self):
         return 'Note(id={},name=\'{}\',user_id={})'.format(self.id, self.name, self.user_id)
@@ -28,7 +30,8 @@ class User(db.Model):
 class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
-    notes = orm.relationship(Note, secondary='notes_tags', backref='tags')
+    notes = orm.relationship(
+        'Note', secondary='notes_tags', back_populates='tags')
 
 
 # table for many-to-many relation between notes and tags
