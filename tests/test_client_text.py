@@ -40,8 +40,3 @@ def test_extract_tags():
     assert filtered_text == SIMPLE_TEXT
     assert len(tags) == len(TAGS)
     assert set(tags) == set(TAGS)
-
-# --------------------integration----------------------
-
-
-# TODO : client integration. read+extract+send note to API
