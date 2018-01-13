@@ -20,10 +20,38 @@ errors = {
 api = Api(errors=errors)
 
 
+# ---------------------GENERIC COMPONENTS---------------------
+
+class Get_One_Or_All:
+    """Generic mixin class that provides getting a single item or a collection
+    """
+
+    def get(self, item_id=None, **kwargs):
+        if item_id:
+            return self.get_one(item_id, **kwargs)
+        else:
+            return self.get_many(**kwargs)
+
+    def get_one(self, item_id, **kwargs):
+        item = session.query(self.model).filter_by(id=item_id).one()
+        item_json = self.item_schema.dumps(item).data
+        return item_json
+
+    def get_many(self, **kwargs):
+        items = session.query(self.model).all()
+        items_json = self.item_collection_schema.dumps(items).data
+        return items_json
+
+
 # -------------------USER----------------------------
 
 
-class UserResource(Resource):
+class UserResource(Resource, Get_One_Or_All):
+
+    # class attribute to use for the generic mixins
+    model = User
+    item_schema = user_schema
+    item_collection_schema = user_collection_schema
 
     def post(self):
         user = user_schema.load(request.json).data
@@ -44,20 +72,10 @@ class UserResource(Resource):
             return 'user does not exist', 404
 
     def get(self, user_id=None):
-        if user_id:
-            return self.get_one(user_id)
-        else:
-            return self.get_many()
+        """get must be defined in this class to be recognized by RestFull extension
+        """
 
-    def get_one(self, user_id):
-        user = session.query(User).filter_by(id=user_id).one()
-        user_json = user_schema.dumps(user).data
-        return user_json
-
-    def get_many(self):
-        users = session.query(User).all()
-        users_json = user_collection_schema.dumps(users).data
-        return users_json
+        return super().get(item_id=user_id)
 
 api.add_resource(UserResource, '/api/users', '/api/users/<int:user_id>')
 
@@ -65,7 +83,12 @@ api.add_resource(UserResource, '/api/users', '/api/users/<int:user_id>')
 # ---------------------NOTE--------------------------
 
 
-class NoteResource(Resource):
+class NoteResource(Resource, Get_One_Or_All):
+
+    # class attribute to use for the generic mixins
+    model = Note
+    item_schema = note_schema
+    item_collection_schema = note_collection_schema
 
     def post(self, user_id=None):
         if user_id is None:
@@ -89,22 +112,10 @@ class NoteResource(Resource):
         except NoResultFound:
             return 'note does not exist', 404
 
-    def get(self, note_id=None):
-        if note_id:
-            return self.get_one(note_id)
-        else:
-            return self.get_many()
-
-    def get_one(self, note_id):
-        note = session.query(Note).filter_by(id=note_id).one()
-        note_json = note_schema.dumps(note).data
-        return note_json
-
-    def get_many(self):
-        notes = session.query(Note).all()
-        notes_json = note_collection_schema.dumps(notes).data
-        return notes_json
-
+    def get(self, user_id=None, note_id=None):
+        """get must be defined in this class to be recognized by RestFull extension
+        """
+        return super().get(item_id=note_id, user_id=user_id)
 
 api.add_resource(NoteResource,
                  '/api/notes',
@@ -117,7 +128,12 @@ api.add_resource(NoteResource,
 # ---------------------TAG---------------------
 
 
-class TagResource(Resource):
+class TagResource(Resource, Get_One_Or_All):
+
+    # class attribute to use for the generic mixins
+    model = Tag
+    item_schema = tag_schema
+    item_collection_schema = tag_collection_schema
 
     def post(self):
         tag = tag_schema.load(request.json).data
@@ -127,19 +143,8 @@ class TagResource(Resource):
         return feedback, 201
 
     def get(self, tag_id=None):
-        if tag_id:
-            return self.get_one(tag_id)
-        else:
-            return self.get_many()
-
-    def get_one(self, tag_id):
-        tag = session.query(Tag).filter_by(id=tag_id).one()
-        tag_json = tag_schema.dumps(tag).data
-        return tag_json
-
-    def get_many(self):
-        tags = session.query(Tag).all()
-        tags_json = tag_collection_schema.dumps(tags).data
-        return tags_json
+        """get must be defined in this class to be recognized by RestFull extension
+        """
+        return super().get(item_id=tag_id)
 
 api.add_resource(TagResource, '/api/tags', '/api/tags/<int:tag_id>')
