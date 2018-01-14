@@ -7,20 +7,22 @@ name = "pypi"
 
 [packages]
 
-Flask = "*"
-SQLAlchemy = "*"
-Flask-SQLAlchemy = "*"
-Faker = "*"
+flask = "*"
+sqlalchemy = "*"
+flask-sqlalchemy = "*"
+faker = "*"
 marshmallow = "*"
-Flask-RESTful = "*"
+flask-restful = "*"
 marshmallow-sqlalchemy = "*"
+requests = "*"
+click = "*"
 
 
 [dev-packages]
 
 pytest-flask = "*"
 pytest = "*"
-Faker = "*"
+faker = "*"
 ipython = "*"
 rlipython = "*"
 pdbpp = "*"
