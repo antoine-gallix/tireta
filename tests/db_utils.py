@@ -3,6 +3,7 @@ from pdb import set_trace as bp
 from faker import Faker
 from tireta.models import User, Note, Tag, db
 from sqlalchemy.orm.exc import NoResultFound
+import logging
 fake = Faker()
 session = db.session
 
@@ -59,6 +60,7 @@ def add_user(name=None):
     user = User(name=name)
     session.add(user)
     session.commit()
+    logging.info('add user : {} (id:{})'.format(name, user.id))
     return user
 
 
