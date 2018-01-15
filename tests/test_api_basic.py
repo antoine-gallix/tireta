@@ -85,7 +85,7 @@ def test_get_non_existing_note(client):
     assert response.status_code == 404
 
 
-def test_note_post_note(client):
+def test_post_note(client):
     user = add_user()
     payload = build_note_payload(user_id=user.id)
     response = client.post('/api/notes', data=payload)
@@ -108,7 +108,15 @@ def test_delete_note(client):
     response = client.get(note_url)
     assert response.status_code == 404
 
-# # ---------------------NOTES WITH TAGS--------------------------
+
+def test_post_note_with_tags(client):
+    user = add_user()
+    payload = build_note_payload(user_id=user.id, with_tags=True)
+    response = client.post('/api/notes', data=payload)
+    assert response.status_code == 201
+
+
+# # ---------------------TAGS--------------------------
 
 
 def test_tag_resource_exist(client):

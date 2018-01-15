@@ -26,7 +26,11 @@ class Note(db.Model):
         'Tag', secondary='notes_tags', back_populates='notes')
 
     def __repr__(self):
-        return 'Note(id={},name=\'{}\',user_id={})'.format(self.id, self.name, self.user_id)
+        return 'Note(id={},name=\'{}\',user_id={},tags={})'\
+            .format(self.id,
+                    self.name,
+                    self.user_id,
+                    ['{}({})'.format(tag.name, tag.id) for tag in self.tags])
 
 
 class Tag(db.Model):

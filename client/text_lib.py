@@ -34,7 +34,10 @@ def extract_tags(text, tag_mark):
     return filtered, tags
 
 
-def serialize_note(file_path):
+def read_note(file_path):
+    """Extract name, text and tags from a text file
+    """
+
     file = Path(file_path).expanduser().resolve()
     name = file.stem
     raw_text = get_note_text(file)
@@ -43,3 +46,8 @@ def serialize_note(file_path):
                'body': text,
                'tags': tags}
     return payload
+
+
+def write_note():
+    """Write a 
+    """
