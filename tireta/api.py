@@ -105,8 +105,7 @@ class NoteResource(Resource, Get_One_Or_All):
         note.user = user
 
         # create tags
-        if tag_names:
-            tags = [Tag(name=name) for name in tag_names]
+        tags = [Tag(name=name) for name in tag_names]
         note.tags = tags
         db.session.add(note)
         db.session.commit()

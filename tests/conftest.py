@@ -60,6 +60,8 @@ class JSON_Client(FlaskClient):
 
 
 class Load_JSON_Response(Response):
+    """adds a method to the response class to load json
+    """
 
     def load(self):
         return json.loads(self.json)
