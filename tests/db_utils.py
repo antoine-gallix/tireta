@@ -22,10 +22,13 @@ def list_users():
 def list_notes():
     print('---notes---')
     for note in session.query(Note):
-        print('{:^3} | {:^15}| {} | {}'.format(
+        print('{:^3} | {:^15}| {} | {} | {}'.format(
             note.id,
+            note.name,
             note.user.name,
-            [tag.name for tag in note.tags], note.name))
+            [tag.name for tag in note.tags],
+            '{} char'.format(len(note.body))
+        ))
 
 
 def list_tags():
