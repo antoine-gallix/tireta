@@ -2,7 +2,7 @@ from pdb import set_trace as bp
 from pytest import fixture
 from pathlib import Path
 from textwrap import dedent
-from tireta.client import text_lib
+from client import text_lib
 
 
 TAG_MARK = '@:'
