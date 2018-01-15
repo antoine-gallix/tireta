@@ -97,6 +97,9 @@ def test_get_note(client):
     note = add_note(user)
     response = client.get('/api/notes/{}'.format(note.id))
     assert response.status_code == 200
+    response_note = response.load()
+    assert response_note['name'] == note.name
+    assert response_note['body'] == note.body
 
 
 def test_delete_note(client):
