@@ -91,20 +91,23 @@ class NoteResource(Resource, Get_One_Or_All):
     item_collection_schema = note_collection_schema
 
     def post(self, user_id=None):
-        bp()
+        payload = request.json
+        # i'm still not sure of deserializing nested models
+        # so for now I pop them from payload and do it by hand
         if user_id is None:
-            user_id = request.json['user_id']
+            user_id = payload.pop('user_id')
+        tag_names = payload.pop('tags', [])
 
-        note = note_schema.load(request.json).data
+        note = note_schema.load(payload).data
 
+        # get user from database
         user = session.query(User).filter_by(id=user_id).one()
         note.user = user
 
-        tag_names = request.json.get('tags', [])
+        # create tags
         if tag_names:
             tags = [Tag(name=name) for name in tag_names]
         note.tags = tags
-
         db.session.add(note)
         db.session.commit()
         feedback = note_schema.dumps(note).data
