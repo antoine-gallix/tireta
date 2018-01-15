@@ -1,13 +1,21 @@
 import click
-from tireta.client.text_lib import get_note_text, extract_tags
-
+import requests
+from text_lib import serialize_note
+from pdb import set_trace as bp
 server_port = 'http://localhost:5000'
 user_id = 1
 
 
 @click.command()
+@click.argument('file_path',
+                type=click.Path(exists=True, file_okay=True, readable=True))
 def send_note(file_path):
-    text = get_note_text(file_path)
-    url = '/'.join([server_port, 'api', 'users', user_id, 'notes'])
+    print('file path : ', file_path)
+    payload = serialize_note(file_path)
+    url = '/'.join([server_port, 'api', 'users', str(user_id), 'notes'])
     print('url : ', url)
-    print('text length : ', len(text))
+    reponse = requests.post(url, json=payload)
+    print('note send successfully')
+
+if __name__ == '__main__':
+    send_note()

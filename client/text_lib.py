@@ -1,11 +1,12 @@
 from pathlib import Path
+import json
 import logging
 
+tag_mark = '#TAGS:'
 
-def get_note_text(file_path):
+
+def get_note_text(file):
     """Get text from a file"""
-
-    file = Path(file_path).expanduser().resolve()
     logging.info('reading file : {}'.format(file))
     text = file.read_text()
     return text
@@ -31,3 +32,14 @@ def extract_tags(text, tag_mark):
     filtered = '\n'.join(note_lines)
     logging.info('extracted tags : {}'.format(tags))
     return filtered, tags
+
+
+def serialize_note(file_path):
+    file = Path(file_path).expanduser().resolve()
+    name = file.stem
+    raw_text = get_note_text(file)
+    text, tags = extract_tags(raw_text, tag_mark)
+    payload = {'name': name,
+               'body': text,
+               'tags': tags}
+    return payload
