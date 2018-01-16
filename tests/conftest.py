@@ -2,6 +2,7 @@ from flask import Response
 from flask.testing import FlaskClient
 from pytest import fixture
 from tireta import create_app
+from pathlib import Path
 from tireta.models import db
 from faker import Faker
 import logging
@@ -80,3 +81,32 @@ def clear_db(app):
     logging.debug('reset db tables')
     db.drop_all()
     db.create_all()
+
+
+# -----------------------------------------------
+
+
+TAG_MARK = '@:'
+TAGS = fake.words()
+SIMPLE_TEXT = fake.text()
+
+tag_line = TAG_MARK + ','.join(TAGS)
+TAGGED_TEXT = '\n'.join([tag_line, SIMPLE_TEXT])
+
+
+@fixture
+def tmpfile(tmpdir):
+    file_path = Path(tmpdir / 'test_file')
+    return file_path
+
+
+@fixture
+def note_file(tmpfile):
+    tmpfile.write_text(SIMPLE_TEXT)
+    return tmpfile
+
+
+@fixture
+def note_file_with_tags(tmpfile):
+    tmpfile.write_text(TAGGED_TEXT)
+    return tmpfile
