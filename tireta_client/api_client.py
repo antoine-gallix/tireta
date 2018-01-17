@@ -1,22 +1,39 @@
-import click
+"""A client to interact with tireta server
+"""
 import requests
-from text_lib import read_note
+from .text_lib import read_note
+import logging
 from pdb import set_trace as bp
+import json
 
 server_port = 'http://localhost:5000'
-user_id = 1
+
+# Function and command declaration are separated
+# so functions can be unit tested
 
 
-@click.command()
-@click.argument('file_path',
-                type=click.Path(exists=True, file_okay=True, readable=True))
-def send_note(file_path):
+def send_note(file_path, user_id):
+    # bp()
     print('file path : ', file_path)
     payload = read_note(file_path)
     url = '/'.join([server_port, 'api', 'users', str(user_id), 'notes'])
     print('url : ', url)
-    reponse = requests.post(url, json=payload)
-    print('note send successfully')
+    response = requests.post(url, json=payload)
+    if response.ok:
+        print('note send successfully')
+    else:
+        print('note upload failed')
 
-if __name__ == '__main__':
-    send_note()
+
+def create_user(user_name):
+    print('creating user with name {}'.format(user_name))
+    payload = {'name': user_name}
+    url = '/'.join([server_port, 'api', 'users'])
+    print('url : ', url)
+    response = requests.post(url, json=payload)
+    if response.ok:
+        data = json.loads(response.json())
+        print('user created successfully')
+        return data['id']
+    else:
+        print('user creation failed')
