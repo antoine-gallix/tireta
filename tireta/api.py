@@ -9,15 +9,7 @@ import json
 
 session = db.session
 
-errors = {
-    # catch error coming from sqlalchemy when resource does not exist
-    'NoResultFound': {
-        'message': "The requested resource does not exist",
-        'status': 404,
-    },
-}
-
-api = Api(errors=errors)
+api = Api()
 
 
 # ---------------------GENERIC COMPONENTS---------------------
@@ -33,7 +25,10 @@ class Get_One_Or_All:
             return self.get_many(**kwargs)
 
     def get_one(self, item_id, **kwargs):
-        item = session.query(self.model).filter_by(id=item_id).one()
+        try:
+            item = session.query(self.model).filter_by(id=item_id).one()
+        except NoResultFound:
+            return 'item not found', 404
         item_json = self.item_schema.dumps(item).data
         return item_json
 
@@ -101,7 +96,10 @@ class NoteResource(Resource, Get_One_Or_All):
         note = note_schema.load(payload).data
 
         # get user from database
-        user = session.query(User).filter_by(id=user_id).one()
+        try:
+            user = session.query(User).filter_by(id=user_id).one()
+        except NoResultFound:
+            return 'no user with id \'{}\' found'.format(user_id), 404
         note.user = user
 
         # create tags

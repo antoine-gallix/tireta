@@ -8,12 +8,14 @@ import logging.config
 
 
 def create_app(config_key='dev'):
+    logging.info('------CREATING APPLICATION------')
     # setup app
-    logging.info('creating app with \'{}\' config'.format(config_key))
+    logging.info('config : \'{}\' '.format(config_key))
     app = flask.Flask(__name__)
-    app.config.from_object(config_map[config_key])
-    logging.info('db uri : {}'.format(
-        config_map[config_key].SQLALCHEMY_DATABASE_URI))
+    config = config_map[config_key]
+    app.config.from_object(config)
+    logging.info('db uri : {}'.format(config.SQLALCHEMY_DATABASE_URI))
+    logging.info('debug : {}'.format(config.DEBUG))
 
     # setup extensions
     db.init_app(app)

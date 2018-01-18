@@ -37,8 +37,8 @@ def extract_tags(text, tag_mark):
 def read_note(file_path):
     """Extract name, text and tags from a text file
     """
-
-    file = Path(file_path).expanduser().resolve()
+    file = Path(file_path) if not isinstance(file_path, Path) else file_path
+    file = file.expanduser().resolve()
     name = file.stem
     raw_text = get_note_text(file)
     text, tags = extract_tags(raw_text, tag_mark)

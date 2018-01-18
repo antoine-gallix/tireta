@@ -10,8 +10,8 @@ import random
 import string
 from .conftest import build_user_payload, build_note_payload
 
-
-pytestmark = mark.usefixtures("clear_db")
+# reset db before each test
+pytestmark = mark.usefixtures("reset_db")
 
 # ---------------------CLIENT--------------------------
 

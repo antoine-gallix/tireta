@@ -2,7 +2,7 @@ from pdb import set_trace as bp
 from pytest import fixture
 from pathlib import Path
 from textwrap import dedent
-from client import text_lib
+from tireta_client import text_lib
 from .conftest import SIMPLE_TEXT, TAGGED_TEXT, TAG_MARK, TAGS
 
 # ---------------------unit tests---------------------

@@ -8,7 +8,7 @@ import logging
 """Test database models
 """
 
-pytestmark = mark.usefixtures("clear_db")
+pytestmark = mark.usefixtures("reset_db")
 session = db.session
 
 

@@ -15,6 +15,7 @@ class TestConfig(BaseConfig):
 
     # for tests, database is in-memory
     SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
+    DEBUG = True
 
 
 class DevConfig(BaseConfig):
